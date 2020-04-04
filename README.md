@@ -6,7 +6,7 @@ The code in this repo shows how to extract the info from the first six graph of 
 
 ## Retail & recreation
 
-![alt text](https://github.com/jealie/google_covid19/raw/master/Google_0 Stopped%20Going%20Out.gif "COVID-19: How The World Stopped Going Out")
+![alt text](https://github.com/jealie/google_covid19/raw/master/Google_0%20Stopped%20Going%20Out.gif "COVID-19: How The World Stopped Going Out")
 
 ## Grocery & pharmacy
 

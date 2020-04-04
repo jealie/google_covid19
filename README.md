@@ -6,19 +6,19 @@ The code in this repo shows how to extract the info from the first six graph of 
 
 ## Retail & recreation
 
-![alt text](https://github.com/jealie/google_covid19/raw/master/Google_0 Stopped Going Out.gif "COVID-19: How The World Stopped Going Out")
+![alt text](https://github.com/jealie/google_covid19/raw/master/Google_0 Stopped%20Going%20Out.gif "COVID-19: How The World Stopped Going Out")
 
 ## Grocery & pharmacy
 
-![alt text](https://github.com/jealie/google_covid19/raw/master/Google_1 Stopped Shopping.gif "COVID-19: How The World Stopped Shopping")
+![alt text](https://github.com/jealie/google_covid19/raw/master/Google_1%20Stopped%20Shopping.gif "COVID-19: How The World Stopped Shopping")
 
 ## Transit Stations
 
-![alt text](https://github.com/jealie/google_covid19/raw/master/Google_3 Stopped Moving.gif "COVID-19: How The World Stopped Moving")
+![alt text](https://github.com/jealie/google_covid19/raw/master/Google_3%20Stopped%20Moving.gif "COVID-19: How The World Stopped Moving")
 
 ## Workplaces
 
-![alt text](https://github.com/jealie/google_covid19/raw/master/Google_4 Stopped Working.gif "COVID-19: How The World Stopped Working")
+![alt text](https://github.com/jealie/google_covid19/raw/master/Google_4%20Stopped%20Working.gif "COVID-19: How The World Stopped Working")
 
 ### Reproduce these maps
 

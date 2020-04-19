@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-dumpdir="reports_2020-03-29"
+date="2020-04-11"
+dumpdir="reports_${date}"
 
 mkdir -p $dumpdir
 cd $dumpdir
 
 for cc in `awk -F "," '{print $NF}' ../country_code.csv`; do
-  toget="http://www.gstatic.com/covid19/mobility/2020-03-29_${cc}_Mobility_Report_en.pdf"
+  toget="http://www.gstatic.com/covid19/mobility/${date}_${cc}_Mobility_Report_en.pdf"
   cmd="wget $toget"
   echo $cmd
   $cmd

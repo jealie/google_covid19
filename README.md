@@ -4,6 +4,16 @@ In early April 2020, Google published a series of pdf reports describing how peo
 
 The code in this repo shows how to extract this data and plot it as cartograms, where the average activity change in each country affects the size of this country on the world map.
 
+### Download the data in csv format
+
+The following csv files were extracted from the national averages of reports published on 2020-03-29 and 2020-04-11:
+- [Retail and Recreation](https://github.com/jealie/google_covid19/blob/master/retail_2020-04-11.csv)
+- [Grocery and pharmacy](https://github.com/jealie/google_covid19/blob/master/grocery_2020-04-11.csv)
+- [Parks](https://github.com/jealie/google_covid19/blob/master/parks_2020-04-11.csv)
+- [Transit stations](https://github.com/jealie/google_covid19/blob/master/transit_2020-04-11.csv)
+- [Workplaces](https://github.com/jealie/google_covid19/blob/master/workplaces_2020-04-11.csv)
+- [Residentials](https://github.com/jealie/google_covid19/blob/master/residentials_2020-04-11.csv)
+
 ## Retail & recreation
 
 ![alt text](https://github.com/jealie/google_covid19/raw/master/Google_0%20Stopped%20Going%20Out.gif "COVID-19: How The World Stopped Going Out")
@@ -19,6 +29,7 @@ The code in this repo shows how to extract this data and plot it as cartograms, 
 ## Workplaces
 
 ![alt text](https://github.com/jealie/google_covid19/raw/master/Google_4%20Stopped%20Working.gif "COVID-19: How The World Stopped Working")
+
 
 ### Reproduce these maps
 

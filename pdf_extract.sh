@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
-dumpdir="reports_2020-03-29"
+date="2020-04-11"
+date="2020-03-29"
+dumpdir="reports_${date}"
 cd ${dumpdir}
 
 for pdf in *.pdf; do
-  # Unpack PDF streams
+  # Limit to first two pages
   ori_file="${pdf}"
-  unstream_file="${pdf}_unstream"
-  cmd="qpdf --qdf --object-streams=disable ${ori_file} ${unstream_file}"
+  cut_file="${ori_file}_head"
+  cmd="pdftk ${ori_file} cat 1-2 output ${cut_file}"
+  echo $cmd
+  eval $cmd
+
+  # Unpack PDF streams
+  unstream_file="${cut_file}_unstream"
+  cmd="qpdf --qdf --object-streams=disable ${cut_file} ${unstream_file}"
   echo $cmd
   eval $cmd
 

@@ -23,6 +23,10 @@ library(purrr)
 library(animation)
 
 
+# report directory date
+date = "2020-04-11"
+
+
 ##################
 # WORLD GEOMETRY #
 ##################
@@ -52,54 +56,47 @@ scaled_geo = function(world_orig, world_cc, iso_code, s) {
 ################################
 
 
-USE_DATA = 0 # 0 is Retail & recreation
-DATA_DESC = "Mobility trends for places like restaurants,\ncafes, shopping centers, theme parks,\nmuseums, libraries, and movie theaters"
-DATA_TITLE = 'Stopped Going Out'
-YLIM = c(-75, 20)
+# USE_DATA = 0 # 0 is Retail & recreation
+# DATA_DESC = "Mobility trends for places like restaurants,\ncafes, shopping centers, theme parks,\nmuseums, libraries, and movie theaters"
+# DATA_TITLE = 'Stopped Going Out'
+# YLIM = c(-95, 20)
+# NAME = 'retail'
 
 # USE_DATA = 1 # 1 is Grocery & pharmacy
 # DATA_DESC = "Mobility trends for places like grocery markets,\nfood warehouses, farmers markets, specialty\nfood shops, drug stores, and pharmacies"
 # DATA_TITLE = 'Stopped Shopping'
-# YLIM = c(-70, 40)
+# YLIM = c(-95, 60)
+# NAME = 'grocery'
 
-# USE_DATA = 2 # 2 is Parks -- weird data, why is UK missing?
-# DATA_DESC = "Mobility trends for places like national parks,\npublic beaches, marinas, dog parks, plazas,\nand public gardens"
-# DATA_TITLE = 'Stopped Breathing'
-# YLIM = c(-70, 80)
+USE_DATA = 2 # 2 is Parks -- weird data, why is UK missing?
+DATA_DESC = "Mobility trends for places like national parks,\npublic beaches, marinas, dog parks, plazas,\nand public gardens"
+DATA_TITLE = 'Stopped Breathing'
+YLIM = c(-100, 100)
+NAME = 'parks'
 
 # USE_DATA = 3 # 3 is Transit stations
 # DATA_DESC = "Mobility trends for places like public transport\nhubs such as subway, bus, and train stations"
 # DATA_TITLE = 'Stopped Moving'
-# YLIM = c(-75, 20)
+# YLIM = c(-95, 20)
+# NAME = 'transit'
 
 # USE_DATA = 4 # 4 is Workplaces
 # DATA_DESC = "Mobility trends for places of work"
 # DATA_TITLE = 'Stopped Working'
-# YLIM = c(-75, 20)
+# YLIM = c(-95, 40)
+# NAME = 'workplaces'
 
 # USE_DATA = 5 # 5 is Residentials - weird data, why is UK missing? Also kind of funky with this visualization
 # DATA_DESC = "Mobility trends for places of residence"
 # DATA_TITLE = 'Stayed Home'
-# YLIM = c(-10, 40)
+# YLIM = c(-10, 80)
+# NAME = 'residentials'
 
-countries = list()
-for (f in list.files('reports_2020-03-29/')) {
-  if (endsWith(f, '_0.csv')) {
-    cc = substr(f, start = 1, stop = 2)
-    try({
-      mobile_data = read.csv(paste0('reports_2020-03-29/', cc, '_',USE_DATA, '.csv'), header=0, sep=' ')
-      countries[[cc]] = (60 - mobile_data$V2)/100 + 1
-      if (any(is.na(countries[[cc]]))) {
-        countries[[cc]] = NULL
-      }
-    })
-  }
-}
 
-dates = list()
-for (i in seq_along(countries[[1]])) {
-  dates[[i]] = as.Date('15/02/2020', format = "%d/%m/%y") + i
-}
+countries = read.csv(paste0(NAME,'_',date,'.csv'), row.names = 1, check.names = F)
+countries = (countries + 100) / 100 # transform the data into relative proportion (1 == baselines)
+dates = as.list(rownames(countries))
+
 
 country_continent = read.csv('country_continent.csv', na.strings='')
 get_col = function(col) {
@@ -125,7 +122,8 @@ known_world_poly = st_cast(world_orig[which(world_cc %in% names(countries))], "P
 unknown_world_poly = st_cast(world_orig[which(!(world_cc %in% names(countries)))], "POLYGON")
 
 # we start at day=14 (not much interesting variations before)
-d1 = 14
+d1 = 1
+# d1 = 40
 
 # output and animate the map
 worlds_animate = saveGIF({
@@ -146,9 +144,17 @@ worlds_animate = saveGIF({
     text(180, 110, paste0("* ",DATA_DESC,"\naggregated by Google"), adj = c(1,0.5), xpd=T, cex = 1)
     text(190,-105, "github.com/jealie/google_covid19", srt=90, cex=0.8, adj=c(0,0))
     par(mfg = c(1, 1), fig=c(0,1,0,0.2), mar=c(2,5,0,2))
-    plot(1, 1, type='n', xlim=c(d1+0.5,43+0.5), ylim=YLIM, xlab='', ylab='  % CHANGE', bty='n', xaxt='n', yaxt='n', bg=NA, cex.lab=1.25)
+    plot(1, 1, type='n', xlim=c(d1+0.5,dim(countries)[1]+0.5), ylim=YLIM, xlab='', ylab='  % CHANGE', bty='n', xaxt='n', yaxt='n', bg=NA, cex.lab=1.25)
     axis(2, at=pretty(YLIM), las=2, cex=1.1, xpd=T)
-    axis(1, at=c(14,21,28,35,43), labels=c(dates[[14]], dates[[21]], dates[[28]], dates[[35]], dates[[43]]), las=1, cex.axis=1.25)
+    axis_dates = seq(1,dim(countries)[1], by=7)
+    if (tail(axis_dates, 1) != dim(countries)[1]) {
+      axis_dates = c(axis_dates, dim(countries)[1])
+    }
+    axis_label = c()
+    for (ad in axis_dates) {
+      axis_label = c(axis_label, as.character(dates[[ad]]))
+    }
+    axis(1, at=axis_dates, labels=axis_label, las=1, cex.axis=1)
     for (cc in names(countries)) {
       points(d1:d,(countries[[cc]][d1:d]-1)*100, type='l', col=get_col(cc), xpd=T)
       points(d,(countries[[cc]][d]-1)*100, type='p', col=get_col(cc), pch=20, cex=2, xpd=T)
